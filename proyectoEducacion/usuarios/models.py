@@ -10,6 +10,8 @@ class Provincia(models.Model):
     nombreProvincia = models.CharField(max_length=100) 
     fkPais = models.ForeignKey(Pais, on_delete=models.CASCADE)
 
+#Hola Mundo
+
 class Ciudad(models.Model): 
     idCiudad_id = models.IntegerField(primary_key = True) 
     nombreCiudad = models.CharField(max_length=100) 
