@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block javascript %}   
+    <script src="{% static 'usuarios/js/personas.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<header>
+
+</header>
+
+<button type="button" class="btn btn-primary js-create-persona mt-4" data-toggle="modal" data-target="#modal-persona">
+    Agregar Persona
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-persona">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for persona in personas %}
+        <tr>
+            <td>{{ persona.documento }}</td>
+            <td>{{ persona.nombre }}</td>
+            <td>{{ persona.apellido }}</td>
+            <td>{{ persona.telefono }}</td>
+            <td>
+                <button class="btn btn-warning">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
