@@ -1,7 +1,8 @@
-from django import forms
-from .models import Pais, Provincia, Ciudad
 
-class CiudadForm(ModelForm):
+from django import forms
+from .models import Persona
+
+class PersonaForm(forms.ModelForm):
     class Meta:
-        model = Ciudad
-        fields = "__all__"
+        model = Persona
+        fields = ('documento', 'nombre', 'apellido', 'telefono')

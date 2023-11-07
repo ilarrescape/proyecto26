@@ -1,49 +1,34 @@
 from django.shortcuts import render
 
-from .models import Ciudad, Pais, Provincia
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+from .models import Persona
 
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
+from .forms import PersonaForm
 
+from django.http import JsonResponse 
+from django.template.loader import render_to_string
 
-from .forms import CiudadForm
+def lista_personas(request):
+    personas = Persona.objects.all()
+    return render(request, 'lista_personas.html', {'personas': personas})
 
-# Create your views here.
-class IndexView(ListView):
-    template_name = 'index.html'
-    context_object_name = 'ciudad_list'
+def agregar_persona(request):
+    data = dict()
 
-    def get_queryset(self):
-        return Ciudad.objects.all()
-
-class CiudadDetalleView(DetailView):
-    model = Ciudad
-    template_name = 'ciudad_detalle.html'
-
-
-def create(request):
-    if request.method == 'POST':
-        form = CiudadForm(request.POST)
+    if request.method == "POST":
+        form = PersonaForm(request.POST)
+        
         if form.is_valid():
             form.save()
-            return redirect('index')
-    form = CiudadForm()
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = PersonaForm()
 
-    return render(request, 'create.html', {'form': form})
+    context = {'form': form}
+    
+    data['html_form'] = render_to_string('formulario_agregar_personas.html', context, request=request)
+    
+    
+    return JsonResponse(data)
 
-def edit(request, pk, template_name='edit.html'):
-    ciudad = get_object_or_404(Ciudad, pk=pk)
-    form = CiudadForm(request.POST or None, instance = ciudad)
-    if form.is_valid():
-        form.save()
-        return redirect('index')
-    return render(request, template_name, {'form': form})
-
-def delete(request, pk, template_name='confirm_delete.html'):
-    ciudad = get_object_or_404(Ciudad, pk=pk)
-    if request.method=='POST':
-        ciudad.delete()
-        return redirect('index')
-    return render(request, template_name, {'object': ciudad})

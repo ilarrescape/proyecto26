@@ -24,3 +24,11 @@ class Ciudad(models.Model):
 
     def __str__(self):
         return f'{self.nombreCiudad}'
+    
+from django.db import models
+
+class Persona(models.Model):
+    documento = models.CharField(max_length=20, unique=True)
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=20)
